@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompted Image Creation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Prompted Image Creation</h1>
+        <form id="promptForm">
+            <label for="prompt">Enter Prompt:</label>
+            <input type="text" id="prompt" name="prompt" required>
+            
+            <label for="filename">Filename (optional):</label>
+            <input type="text" id="filename" name="filename" placeholder="e.g., sunset_mountains.png">
+
+            <button type="submit">Generate Image</button>
+        </form>
+
+        <div id="result">
+            <h2>Generated Image</h2>
+            <img id="generatedImage" alt="Generated image will appear here">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
