@@ -19,7 +19,12 @@
             <button type="submit">Generate Image</button>
         </form>
 
-        <div id="result">
+        <!-- Loading message -->
+        <div id="loadingMessage" style="display: none;">
+            <p>Generating image, please wait...</p>
+        </div>
+
+        <div id="result" style="display: none;">
             <h2>Generated Image</h2>
             <img id="generatedImage" alt="Generated image will appear here">
         </div>
