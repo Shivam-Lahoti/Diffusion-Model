@@ -1,49 +1,46 @@
-document.getElementById("promptForm").addEventListener("submit", async function(event) {
-    event.preventDefault(); // Prevent form from submitting the traditional way
+document.getElementById("promptForm").addEventListener("submit", async function (event) {
+    event.preventDefault(); // Prevent default form submission
 
     const prompt = document.getElementById("prompt").value;
     const filename = document.getElementById("filename").value || "generated_image.png";
 
     const payload = {
         prompt: prompt,
-        filename: filename
+        filename: filename,
     };
 
-    // Show loading message
+    // Show loading animation
     const loadingMessage = document.getElementById("loadingMessage");
-    loadingMessage.style.display = "block";
+    const resultDiv = document.getElementById("result");
+    const generatedImage = document.getElementById("generatedImage");
+    loadingMessage.style.display = "block"; // Show loading
+    resultDiv.style.display = "none"; // Hide result
 
     try {
-        // Send POST request to backend API
+        // Send POST request to backend
         const response = await fetch("http://127.0.0.1:8000/generate", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
         });
 
-        // Check if the response is OK
         if (!response.ok) {
             throw new Error("Error generating image");
         }
 
-        // Convert response to blob to display as image
-        const blob = await response.blob();
-        const imageUrl = URL.createObjectURL(blob);
+        // Get the final image path
+        const data = await response.json();
+        const imageUrl = `http://127.0.0.1:8000/${data.imagePath}`;
 
-        // Hide loading message
+        // Hide loading and show result
         loadingMessage.style.display = "none";
-
-        // Display the generated image
-        const resultDiv = document.getElementById("result");
-        const generatedImage = document.getElementById("generatedImage");
         generatedImage.src = imageUrl;
-        resultDiv.style.display = "block"; // Show the result section
+        resultDiv.style.display = "block";
     } catch (error) {
         console.error("Error:", error);
-        alert(error.message);
-        // Hide loading message in case of error
+        alert("Failed to generate image. Please try again.");
         loadingMessage.style.display = "none";
     }
 });
